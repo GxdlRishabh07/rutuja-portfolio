@@ -1,26 +1,360 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════
+   DESIGN TOKENS — Matched to Reference
+   ═══════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors — Electric Blue + Warm Cream (reference-matched) */
+  --color-primary: #0000FF;
+  --color-primary-light: #2222FF;
+  --color-primary-dark: #0000CC;
+  --color-bg-cream: #FDFCF0;
+  --color-bg-white: #FFFFFF;
+  --color-text-black: #1A1A1A;
+  --color-text-white: #FFFFFF;
+  --color-gray-card: #F0EDE8;
+  --color-border-outline: rgba(255, 255, 255, 0.35);
+  --color-gray-100: #F5F3EE;
+  --color-gray-200: #E8E5DE;
+  --color-gray-300: #D0CCC5;
+  --color-gray-400: #A8A39C;
+  --color-gray-500: #7A756F;
+  --color-text-muted: #C8C4BE;
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-display: var(--font-bowlby), "Impact", sans-serif;
+
+  /* Spacing */
+  --container-max: 1200px;
+  --container-padding: 48px;
+  --section-gap: 140px;
+  --nav-height: 60px;
+  --card-radius: 20px;
+  --pill-radius: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.14);
+  --shadow-card-hover: 0 20px 50px rgba(0, 0, 255, 0.12);
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 700ms;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ═══════════════════
+   BASE RESET
+   ═══════════════════ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-cream);
+  color: var(--color-text-black);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+}
+
+/* ═══════════════════
+   TYPOGRAPHY
+   ═══════════════════ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ═══════════════════
+   CONTAINER
+   ═══════════════════ */
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
+
+/* ═══════════════════
+   SCROLL PROGRESS BAR
+   ═══════════════════ */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--color-primary);
+  z-index: 9999;
+  transition: width 80ms linear;
+}
+
+/* ═══════════════════
+   BUTTON STYLES
+   ═══════════════════ */
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  border-radius: var(--pill-radius);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  border: none;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 255, 0.25);
+}
+
+.btn-outline-white {
+  background: transparent;
+  color: var(--color-text-white);
+  border: 1.5px solid var(--color-border-outline);
+  padding: 22px 0;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  transition: all 0.4s var(--ease-smooth);
+}
+
+.btn-outline-white:hover {
+  background: var(--color-text-white);
+  color: var(--color-primary);
+  border-color: var(--color-text-white);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════
+   CARD STYLES
+   ═══════════════════ */
+
+.card {
+  background: var(--color-bg-white);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  transition: all 0.5s var(--ease-smooth);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ═══════════════════
+   OUTLINE LETTER
+   ═══════════════════ */
+
+.letter-outline {
+  color: transparent;
+  -webkit-text-stroke: 2.5px var(--color-primary);
+  paint-order: stroke fill;
+}
+
+.letter-solid {
+  color: var(--color-primary);
+  -webkit-text-stroke: 0;
+}
+
+/* ═══════════════════
+   WORD REVEAL (Grey → Blue)
+   ═══════════════════ */
+
+.word-reveal {
+  color: var(--color-text-muted);
+  transition: color 0.5s var(--ease-smooth);
+}
+
+.word-reveal.active {
+  color: var(--color-primary);
+}
+
+/* ═══════════════════
+   MAGNETIC CURSOR BUTTON
+   ═══════════════════ */
+
+.magnetic-view-btn {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-bounce);
+}
+
+.card-hover-zone:hover .magnetic-view-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ═══════════════════
+   STICKY PROJECT CARDS
+   ═══════════════════ */
+
+.project-sticky-card {
+  position: sticky;
+  top: 80px;
+  border-radius: var(--card-radius);
+  border: 1.5px solid var(--color-primary);
+  overflow: hidden;
+  background: var(--color-bg-white);
+  transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth);
+}
+
+/* ═══════════════════
+   SKILLS BUBBLE FLOAT
+   ═══════════════════ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1.5deg); }
+  66% { transform: translateY(-6px) rotate(-1deg); }
+}
+
+.bubble-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+/* ═══════════════════
+   3D THANK YOU TEXT
+   ═══════════════════ */
+
+.text-3d {
+  text-shadow:
+    1px 1px 0 rgba(255,255,255,0.15),
+    2px 2px 0 rgba(255,255,255,0.12),
+    3px 3px 0 rgba(255,255,255,0.09),
+    4px 4px 0 rgba(255,255,255,0.06),
+    5px 5px 0 rgba(255,255,255,0.03),
+    0 0 60px rgba(0,0,255,0.1);
+}
+
+/* ═══════════════════
+   FOCUS STYLES (A11Y)
+   ═══════════════════ */
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ═══════════════════
+   REDUCED MOTION
+   ═══════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .bubble-float { animation: none; }
+}
+
+/* ═══════════════════
+   RESPONSIVE HELPERS
+   ═══════════════════ */
+
+@media (max-width: 768px) {
+  :root {
+    --section-gap: 80px;
+    --container-padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-gap: 60px;
+    --container-padding: 16px;
+  }
+}
+
+/* ═══════════════════
+   SCROLLBAR
+   ═══════════════════ */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ═══════════════════
+   ANIMATE SPIN
+   ═══════════════════ */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
