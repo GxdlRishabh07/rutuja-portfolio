@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
+const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+
 const nextConfig: NextConfig = {
+  output: "export",
+  basePath: isGithubActions ? "/rutuja-portfolio" : "",
   images: {
+    unoptimized: true,
     formats: ["image/webp"],
     remotePatterns: [
       {
@@ -10,20 +15,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  headers: async () => [
-    {
-      source: "/(.*)",
-      headers: [
-        { key: "X-Frame-Options", value: "DENY" },
-        { key: "X-Content-Type-Options", value: "nosniff" },
-        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-        {
-          key: "Permissions-Policy",
-          value: "camera=(), microphone=(), geolocation=()",
-        },
-      ],
-    },
-  ],
 };
 
 export default nextConfig;
